@@ -1,0 +1,86 @@
+name: "dbt-docs-publish"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: prod
+    env:
+      ENV_CODE: ${{vars.ENV_CODE}}
+      USERNAME: ${{vars.USERNAME}}
+      PASSWORD: ${{vars.PASSWORD}}
+
+    steps:
+      - name: "Step 01 - Checkout current branch"
+        id: step-01
+        uses: actions/checkout@v3
+
+      - name: "Step 02 - Install dbt"
+        id: step-02
+        run: pip3 install dbt-core dbt-clickhouse
+
+      - name: "Step 03 - Verify dbt"
+        id: step-03
+        run: dbt --version
+
+      - name: "Step 04 - Compile dbt"
+        id: step-04
+        working-directory: ./test-docs
+        run: |
+          ls -ltra
+          export DBT_PROFILES_DIR=$PWD
+          dbt deps
+          dbt debug -t $ENV_CODE
+          dbt compile -t $ENV_CODE
+
+      - name: "Step 05 - Generate dbt docs"
+        id: step-05
+        working-directory: ./test-docs
+        run: |
+          export DBT_PROFILES_DIR=$PWD
+          dbt deps
+          dbt docs generate -t $ENV_CODE
+          cd target
+          mkdir ${{ github.workspace }}/docs
+          cp *.json *.html graph.gpickle ${{ github.workspace }}/docs
+          ls -ltra ${{ github.workspace }}/docs
+
+      - name: "Step 06 - Upload pages to artifact"
+        id: step-06
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ${{ github.workspace }}/docs
+
+      - name: "Step 07 - Zip artifact"
+        id: step-07
+        run: zip -jrq docs.zip ${{ github.workspace }}/docs
+
+      - name: "Step 08 - Upload artifact for deployment job"
+        id: step-08
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: docs.zip
+
+
+  deploy-to-github-pages:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
