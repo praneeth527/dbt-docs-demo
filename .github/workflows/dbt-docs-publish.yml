@@ -30,7 +30,7 @@ jobs:
 
       - name: "Step 04 - Compile dbt"
         id: step-04
-        working-directory: ./test-docs
+        working-directory: test-docs
         run: |
           ls -ltra
           export DBT_PROFILES_DIR=$PWD
@@ -40,7 +40,7 @@ jobs:
 
       - name: "Step 05 - Generate dbt docs"
         id: step-05
-        working-directory: ./test-docs
+        working-directory: test-docs
         run: |
           export DBT_PROFILES_DIR=$PWD
           dbt deps
