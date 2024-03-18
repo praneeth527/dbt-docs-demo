@@ -22,14 +22,19 @@ jobs:
 
       - name: "Step 02 - Install dbt"
         id: step-02
-        run: pip3 install dbt-core dbt-clickhouse dbt-duckdb
+        run: pip3 install dbt-core dbt-clickhouse
 
       - name: "Step 03 - Verify dbt"
         id: step-03
         run: dbt --version
 
-      - name: "Step 04 - Compile dbt"
+      - name: "Step 04 - setup clickhouse"
         id: step-04
+        uses: EpicStep/clickhouse-github-action@v1.0.0
+
+
+      - name: "Step 05 - Compile dbt"
+        id: step-05
         working-directory: test_docs
         run: |
           ls -ltra
@@ -38,8 +43,8 @@ jobs:
           dbt debug -t $ENV_CODE
           dbt compile -t $ENV_CODE
 
-      - name: "Step 05 - Generate dbt docs"
-        id: step-05
+      - name: "Step 06 - Generate dbt docs"
+        id: step-06
         working-directory: test_docs
         run: |
           export DBT_PROFILES_DIR=$PWD
@@ -50,22 +55,22 @@ jobs:
           cp *.json *.html graph.gpickle ${{ github.workspace }}/docs
           ls -ltra ${{ github.workspace }}/docs
 
-      - name: "Step 06 - Upload pages to artifact"
-        id: step-06
+      - name: "Step 07 - Upload pages to artifact"
+        id: step-07
         uses: actions/upload-pages-artifact@v2
         with:
           path: ${{ github.workspace }}/docs
 
-      - name: "Step 07 - Zip artifact"
-        id: step-07
-        run: zip -jrq docs.zip ${{ github.workspace }}/docs
-
-      - name: "Step 08 - Upload artifact for deployment job"
-        id: step-08
-        uses: actions/upload-artifact@v3
-        with:
-          name: docs
-          path: docs.zip
+#      - name: "Step 08 - Zip artifact"
+#        id: step-08
+#        run: zip -jrq docs.zip ${{ github.workspace }}/docs
+#
+#      - name: "Step 09 - Upload artifact for deployment job"
+#        id: step-09
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: docs
+#          path: docs.zip
 
 
   deploy-to-github-pages:
