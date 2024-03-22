@@ -49,11 +49,22 @@ jobs:
           mkdir ${{ github.workspace }}/docs
           cp *.json *.html graph.gpickle ${{ github.workspace }}/docs
 
-      - name: "Step 06 - Upload pages to artifact"
-        id: step06
-        uses: actions/upload-pages-artifact@v2
+#      - name: "Step 06 - Upload pages to artifact"
+#        id: step06
+#        uses: actions/upload-pages-artifact@v2
+#        with:
+#          path: ${{ github.workspace }}/docs
+
+      - name: "Step 08 - Zip artifact"
+        id: step-08
+        run: zip -jrq docs.zip ${{ github.workspace }}/docs
+
+      - name: "Step 09 - Upload artifact for deployment job"
+        id: step-09
+        uses: actions/upload-artifact@v4
         with:
-          path: ${{ github.workspace }}/docs
+          name: docs
+          path: docs.zip
 
   deploy-to-github-pages:
     needs: build
