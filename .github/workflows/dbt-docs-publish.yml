@@ -44,7 +44,7 @@ jobs:
         id: step05
         working-directory: test_docs
         run: |
-          dbt docs generate --target DBT_TARGET
+          dbt docs generate --target $DBT_TARGET
           cd target
           mkdir ${{ github.workspace }}/docs
           cp *.json *.html graph.gpickle ${{ github.workspace }}/docs
