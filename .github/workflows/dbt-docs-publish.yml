@@ -11,65 +11,49 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     env:
-      ENV_CODE: ${{vars.ENV_CODE}}
+      DBT_TARGET: ${{vars.DBT_TARGET}}
       CLICKHOUSE_USER: ${{vars.CLICKHOUSE_USER}}
       CLICKHOUSE_PASSWORD: ${{vars.CLICKHOUSE_PASSWORD}}
-      CLICKHOUSE_DB: ${{vars.CLICKHOUSE_DB}}
+      CLICKHOUSE_DATABASE: ${{vars.CLICKHOUSE_DATABASE}}
 
     steps:
       - name: "Step 01 - Checkout current branch"
-        id: step-01
+        id: step01
         uses: actions/checkout@v3
 
       - name: "Step 02 - Install dbt"
-        id: step-02
-        run: pip3 install dbt-core dbt-clickhouse
+        id: step02
+        run: |
+          pip3 install dbt-core dbt-clickhouse
+          dbt --version
 
-#      - name: "Step 03 - Verify dbt"
-#        id: step-03
-#        run: dbt --version
-
-      - name: "Step 04 - setup clickhouse"
-        id: step-04
+      - name: "Step 03 - Setup ClickHouse"
+        id: step03
         uses: ./.github/actions/clickhouse
         with:
-          version: '23.3.18.15'
+          image-tag: '23.3.18.15-alpine'
 
-
-      - name: "Step 05 - Compile dbt"
-        id: step-05
+      - name: "Step 04 - Compile dbt"
+        id: step04
         working-directory: test_docs
         run: |
-          dbt debug --target $ENV_CODE
-          dbt compile --target $ENV_CODE
+          dbt debug --target $DBT_TARGET
+          dbt compile --target $DBT_TARGET
 
-      - name: "Step 06 - Generate dbt docs"
-        id: step-06
+      - name: "Step 05 - Generate dbt docs"
+        id: step05
         working-directory: test_docs
         run: |
           dbt docs generate -t $ENV_CODE
           cd target
           mkdir ${{ github.workspace }}/docs
           cp *.json *.html graph.gpickle ${{ github.workspace }}/docs
-          ls -ltra ${{ github.workspace }}/docs
 
-      - name: "Step 07 - Upload pages to artifact"
-        id: step-07
+      - name: "Step 06 - Upload pages to artifact"
+        id: step06
         uses: actions/upload-pages-artifact@v2
         with:
           path: ${{ github.workspace }}/docs
-
-#      - name: "Step 08 - Zip artifact"
-#        id: step-08
-#        run: zip -jrq docs.zip ${{ github.workspace }}/docs
-#
-#      - name: "Step 09 - Upload artifact for deployment job"
-#        id: step-09
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: docs
-#          path: docs.zip
-
 
   deploy-to-github-pages:
     needs: build
@@ -86,4 +70,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
