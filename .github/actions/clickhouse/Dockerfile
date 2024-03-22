@@ -1,4 +1,4 @@
-FROM clickhouse/clickhouse-server:$1-alpine
+FROM clickhouse/clickhouse-server:23.3.18.15-alpine
 
 RUN printenv
 
