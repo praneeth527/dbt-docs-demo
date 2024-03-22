@@ -30,7 +30,7 @@ jobs:
 
       - name: "Step 03 - Setup ClickHouse"
         id: step03
-        uses: praneeth527/clickhouse-server
+        uses: praneeth527/clickhouse-server@v1.0.0
         with:
           tag: '23.3.18.15-alpine'
 
