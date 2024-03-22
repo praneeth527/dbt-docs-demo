@@ -12,8 +12,9 @@ jobs:
     environment: prod
     env:
       ENV_CODE: ${{vars.ENV_CODE}}
-      USERNAME: ${{vars.USERNAME}}
-      PASSWORD: ${{vars.PASSWORD}}
+      CLICKHOUSE_USER: ${{vars.CLICKHOUSE_USER}}
+      CLICKHOUSE_PASSWORD: ${{vars.CLICKHOUSE_PASSWORD}}
+      CLICKHOUSE_DB: ${{vars.CLICKHOUSE_DB}}
 
     steps:
       - name: "Step 01 - Checkout current branch"
@@ -30,25 +31,20 @@ jobs:
 
       - name: "Step 04 - setup clickhouse"
         id: step-04
-        uses: EpicStep/clickhouse-github-action@v1.0.0
+        uses: ./.github/actions/clickhouse
 
 
       - name: "Step 05 - Compile dbt"
         id: step-05
         working-directory: test_docs
         run: |
-          ls -ltra
-          export DBT_PROFILES_DIR=$PWD
-          dbt deps
-          dbt debug -t $ENV_CODE
-          dbt compile -t $ENV_CODE
+          dbt debug --target $ENV_CODE
+          dbt compile --target $ENV_CODE
 
       - name: "Step 06 - Generate dbt docs"
         id: step-06
         working-directory: test_docs
         run: |
-          export DBT_PROFILES_DIR=$PWD
-          dbt deps
           dbt docs generate -t $ENV_CODE
           cd target
           mkdir ${{ github.workspace }}/docs

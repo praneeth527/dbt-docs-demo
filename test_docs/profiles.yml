@@ -1,12 +1,10 @@
-jaffle_shop:
-  target: dev  # Default target, you can change this to switch environments
+test_docs:
+  target: dev
   outputs:
-    clickhouse:
+    dev:
       type: clickhouse
-      schema: dbt_test
+      schema: "{{ env_var('CLICKHOUSE_DB') }}"
       host: localhost
       port: 8123
-      user: "{{ env_var('USERNAME') }}"
-      password: "{{ env_var('PASSWORD') }}"
-    dev:
-      type: duckdb
+      user: "{{ env_var('CLICKHOUSE_USER') }}"
+      password: "{{ env_var('CLICKHOUSE_PASSWORD') }}"
