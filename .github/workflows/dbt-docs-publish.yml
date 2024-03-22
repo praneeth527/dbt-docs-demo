@@ -46,11 +46,13 @@ jobs:
         working-directory: test_docs
         run: |
           dbt docs generate --target $DBT_TARGET
-          mkdir -p ${{ github.workspace }}/docs/
+          mkdir -p ${{ github.workspace }}/docs
           cp index.html ${{ github.workspace }}/docs
           cd target
           mkdir -p ${{ github.workspace }}/docs/test_docs
           cp *.json *.html graph.gpickle ${{ github.workspace }}/docs/test_docs
+          ls ${{ github.workspace }}/docs
+          ls ${{ github.workspace }}/docs/test_docs
 
       - name: "Step 06 - Upload pages to artifact"
         id: step06
