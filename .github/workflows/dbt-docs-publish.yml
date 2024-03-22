@@ -25,9 +25,9 @@ jobs:
         id: step-02
         run: pip3 install dbt-core dbt-clickhouse
 
-      - name: "Step 03 - Verify dbt"
-        id: step-03
-        run: dbt --version
+#      - name: "Step 03 - Verify dbt"
+#        id: step-03
+#        run: dbt --version
 
       - name: "Step 04 - setup clickhouse"
         id: step-04
