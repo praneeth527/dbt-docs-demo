@@ -1,4 +1,6 @@
-FROM clickhouse/clickhouse-server:$INPUT_VERSION-alpine
+FROM clickhouse/clickhouse-server:$1-alpine
+
+RUN printenv
 
 ENV CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
 
