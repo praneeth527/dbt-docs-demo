@@ -1,6 +1,6 @@
 name: 'ClickHouse Server'
 description: 'A docker container action for running ClickHouse server to run tests or simple actions'
-author: 'praneeth527'
+author: 'Praneeth Kumar Reddy (praneeth527)'
 
 branding:
   icon: 'database'
@@ -8,7 +8,7 @@ branding:
 
 inputs:
   # See https://hub.docker.com/r/clickhouse/clickhouse-server/tags for supported versions
-  image-tag:
+  tag:
     description: 'ClickHouse docker image tag to run'
     required: false
     default: 'latest-alpine'

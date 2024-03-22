@@ -27,14 +27,14 @@ jobs:
         id: clickhouse-server
         uses: ./.github/actions/clickhouse
         with:
-          image-tag: '23.3.18.15-alpine' # clickhouse server docker image tag -- https://hub.docker.com/r/clickhouse/clickhouse-server/tags
+          tag: '23.3.18.15-alpine' # clickhouse server docker image tag -- https://hub.docker.com/r/clickhouse/clickhouse-server/tags
 ```
 
 ## Inputs 📥
 
 | Input | Required? | Default          | Description                                                                                                                                                     |
 | ----- |-----------|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `image-tag` | `false`   | `latest-alpine`  | The clickhouse server docker image tag to run |                                                                                                                  |
+| `tag` | `false`   | `latest-alpine`  | The clickhouse server docker image tag to run |                                                                                                                  |
 
 ## Outputs 📤
 

@@ -31,7 +31,7 @@ jobs:
         id: step03
         uses: ./.github/actions/clickhouse-server
         with:
-          image-tag: '23.3.18.15-alpine'
+          tag: '23.3.18.15-alpine'
 
       - name: "Step 04 - Compile dbt"
         id: step04
