@@ -32,6 +32,8 @@ jobs:
       - name: "Step 04 - setup clickhouse"
         id: step-04
         uses: ./.github/actions/clickhouse
+        with:
+          version: '23.3.18.15'
 
 
       - name: "Step 05 - Compile dbt"
