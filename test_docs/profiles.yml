@@ -3,7 +3,7 @@ test_docs:
   outputs:
     dev:
       type: clickhouse
-      schema: "{{ env_var('CLICKHOUSE_DB') }}"
+      schema: "{{ env_var('CLICKHOUSE_DATABASE') }}"
       host: localhost
       port: 8123
       user: "{{ env_var('CLICKHOUSE_USER') }}"
