@@ -23,5 +23,6 @@ done
 
 cd ../
 rm -rf projects/docs
+mkdir -p projects/docs
 mv projects/docs .
 sh generate_index.sh
