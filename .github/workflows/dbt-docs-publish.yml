@@ -34,21 +34,14 @@ jobs:
         with:
           tag: '23.3.18.15-alpine'
 
-      - name: "Step 04 - Compile dbt"
+      - name: "Step 04 - Generate dbt docs"
         id: step04
-        working-directory: test_docs
-        run: |
-          dbt debug --target $DBT_TARGET
-          dbt compile --target $DBT_TARGET
-
-      - name: "Step 05 - Generate dbt docs"
-        id: step05
         working-directory: test_docs
         run: |
           sh generate_doc.sh
 
-      - name: "Step 06 - Upload pages to artifact"
-        id: step06
+      - name: "Step 05 - Upload pages to artifact"
+        id: step05
         uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ github.workspace }}/docs
