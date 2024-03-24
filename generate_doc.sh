@@ -22,7 +22,7 @@ for folder in */; do
 done
 
 cd ../
-rm -rf projects/docs
-mkdir -p projects/docs
+rm -rf docs
 mv projects/docs .
 sh generate_index.sh
+ls -R docs
