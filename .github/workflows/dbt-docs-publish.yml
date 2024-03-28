@@ -34,10 +34,17 @@ jobs:
         with:
           tag: '23.3.18.15-alpine'
 
+#      - name: "Step 04 - Generate dbt docs"
+#        id: step04
+#        run: |
+#          sh generate_doc.sh
       - name: "Step 04 - Generate dbt docs"
         id: step04
-        run: |
-          sh generate_doc.sh
+        uses: praneeth527/dbt-docs-generator@main
+        with:
+          projects_dir: projects
+          docs_dir: ${{ github.workspace }}/docs
+
 
       - name: "Step 05 - Upload pages to artifact"
         id: step05
