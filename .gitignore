@@ -4,3 +4,4 @@ logs/
 .idea
 .DS_Store
 docs/
+.user.yml
