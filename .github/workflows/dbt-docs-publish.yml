@@ -13,6 +13,7 @@ jobs:
 
     env:
       DBT_TARGET: ${{vars.DBT_TARGET}}
+      DBT_PROFILES_DIR: ${{ github.workspace }}/projects
       CLICKHOUSE_USER: ${{vars.CLICKHOUSE_USER}}
       CLICKHOUSE_PASSWORD: ${{vars.CLICKHOUSE_PASSWORD}}
       CLICKHOUSE_DATABASE: ${{vars.CLICKHOUSE_DATABASE}}
