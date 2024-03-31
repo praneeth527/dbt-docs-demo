@@ -18,9 +18,7 @@ jobs:
         run: |
           echo "$GITHUB_ENV"
           cat "$GITHUB_ENV"
-          printenv
           source local.env
-          printenv
 
 #      - name: "Step 03 - Install dbt"
 #        id: step03
