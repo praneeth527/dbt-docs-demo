@@ -18,7 +18,7 @@ jobs:
       - name: "Step 02 - set env"
         id: step02
         run: |
-          sed "/#/d; s/^export //" local.env >> $GITHUB_ENV
+          sed "/#/d; s/^export //" local.env >> "$GITHUB_ENV"
 
       - name: "Step 03 - Install dbt"
         id: step03
