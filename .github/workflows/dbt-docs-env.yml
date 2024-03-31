@@ -16,25 +16,23 @@ jobs:
       - name: "Step 02 - set env"
         id: step02
         run: |
-          echo "$GITHUB_ENV"
-          cat "$GITHUB_ENV"
-          source local.env
+          sed "/#/d; s/^export //" local.env >> $GITHUB_ENV
 
-#      - name: "Step 03 - Install dbt"
-#        id: step03
-#        run: |
-#          pip3 install dbt-core dbt-clickhouse
-#          dbt --version
-#
-#      - name: "Step 04 - Setup ClickHouse"
-#        id: step04
-#        uses: praneeth527/clickhouse-server-action@v1.0.1
-#        with:
-#          tag: '23.3.18.15-alpine'
-#
-#      - name: "Step 05 - Generate dbt docs"
-#        id: step05
-#        uses: praneeth527/generate-dbt-docs@v1
-#        with:
-#          projects_dir: projects
-#          docs_dir: ${{ github.workspace }}/docs
+      - name: "Step 03 - Install dbt"
+        id: step03
+        run: |
+          pip3 install dbt-core dbt-clickhouse
+          dbt --version
+
+      - name: "Step 04 - Setup ClickHouse"
+        id: step04
+        uses: praneeth527/clickhouse-server-action@v1.0.1
+        with:
+          tag: '23.3.18.15-alpine'
+
+      - name: "Step 05 - Generate dbt docs"
+        id: step05
+        uses: praneeth527/generate-dbt-docs@v1
+        with:
+          projects_dir: projects
+          docs_dir: ${{ github.workspace }}/docs
