@@ -39,11 +39,11 @@ jobs:
 
       - name: "Step 04 - Generate dbt docs"
         id: step04
-        uses: praneeth527/generate-dbt-docs@v1
+        uses: praneeth527/generate-dbt-docs@main
         with:
           projects_dir: projects
           docs_dir: ${{ github.workspace }}/docs
-
+          dbt_vars: '{run_id: "global_run_id"}'
 
       - name: "Step 05 - Upload pages to artifact"
         id: step05
