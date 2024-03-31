@@ -17,6 +17,8 @@ jobs:
       CLICKHOUSE_USER: ${{vars.CLICKHOUSE_USER}}
       CLICKHOUSE_PASSWORD: ${{vars.CLICKHOUSE_PASSWORD}}
       CLICKHOUSE_DATABASE: ${{vars.CLICKHOUSE_DATABASE}}
+      CLICKHOUSE_HOST: localhost
+      CLICKHOUSE_PORT: 8123
 
     steps:
       - name: "Step 01 - Checkout current branch"

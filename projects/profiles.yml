@@ -4,7 +4,7 @@ demo_profile:
     dev:
       type: clickhouse
       schema: "{{ env_var('CLICKHOUSE_DATABASE') }}"
-      host: localhost
-      port: 8123
+      host: "{{ env_var('CLICKHOUSE_HOST') }}"
+      port: "{{ env_var('CLICKHOUSE_PORT') | as_number }}"
       user: "{{ env_var('CLICKHOUSE_USER') }}"
       password: "{{ env_var('CLICKHOUSE_PASSWORD') }}"
