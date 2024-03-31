@@ -17,6 +17,7 @@ jobs:
         id: step02
         run: |
           echo "$GITHUB_ENV"
+          cat "$GITHUB_ENV"
           source local.env
 
       - name: "Step 03 - Install dbt"
