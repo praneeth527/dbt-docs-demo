@@ -44,6 +44,7 @@ jobs:
           projects_dir: projects
           docs_dir: ${{ github.workspace }}/docs
           dbt_vars: '{run_id: "global_run_id"}'
+          dbt_target: dev
 
       - name: "Step 05 - Upload pages to artifact"
         id: step05
